@@ -19,7 +19,16 @@ public class UserService {
 	}
 	
 	public List<User> getAllUsers(){
-		return userRepository.getAllUsers();
+		
+		List<User> users =  userRepository.getAllUsers();
+		if(users != null && !users.isEmpty()) {
+			for (User user : users) {
+				//pegar os telefones criar método no phone repository
+			}
+		}
+		
+		
+		return users;
 	}
 	
 }
