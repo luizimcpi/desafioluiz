@@ -31,10 +31,10 @@ public class User implements Serializable{
 	private String password;
     
     @Column(name = "dt_created", nullable = false)
-    private LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime created;
 
     @Column(name = "dt_last_login", nullable = false)
-    private LocalDateTime last_login = LocalDateTime.now();
+    private LocalDateTime last_login;
     
     @Column(name = "dt_modified")
     private LocalDateTime modified;
