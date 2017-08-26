@@ -1,6 +1,7 @@
 package com.concrete.desafioluiz.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -28,6 +29,18 @@ public class User implements Serializable{
 	private String email;
     @Column(nullable = false)
 	private String password;
+    
+    @Column(name = "dt_created", nullable = false)
+    private LocalDateTime created = LocalDateTime.now();
+
+    @Column(name = "dt_last_login", nullable = false)
+    private LocalDateTime last_login = LocalDateTime.now();
+    
+    @Column(name = "dt_modified")
+    private LocalDateTime modified;
+    
+    @Column(nullable = false)
+   	private String token;
     
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JsonManagedReference
@@ -62,6 +75,30 @@ public class User implements Serializable{
 	}
 	public void setPhones(List<Phone> phones) {
 		this.phones = phones;
+	}
+	public LocalDateTime getCreated() {
+		return created;
+	}
+	public void setCreated(LocalDateTime created) {
+		this.created = created;
+	}
+	public LocalDateTime getLast_login() {
+		return last_login;
+	}
+	public void setLast_login(LocalDateTime last_login) {
+		this.last_login = last_login;
+	}
+	public LocalDateTime getModified() {
+		return modified;
+	}
+	public void setModified(LocalDateTime modified) {
+		this.modified = modified;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 }

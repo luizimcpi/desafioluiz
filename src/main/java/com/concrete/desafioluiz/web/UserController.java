@@ -3,16 +3,15 @@ package com.concrete.desafioluiz.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import com.concrete.desafioluiz.model.Phone;
+import com.concrete.desafioluiz.exception.EmailAlreadyExistsException;
 import com.concrete.desafioluiz.model.User;
 import com.concrete.desafioluiz.service.UserService;
 
@@ -33,33 +32,20 @@ public class UserController {
 	    }
 		
 	  	@RequestMapping(method = RequestMethod.POST)
-	    public ResponseEntity<Void> createUser(@RequestBody User user,  UriComponentsBuilder ucBuilder) {
-	        System.out.println("Criando Usuario >>>>> " + user.getName());
-	        
-	        this.setPhone(user);
+	    public ResponseEntity<User> createUser(@RequestBody User user) throws EmailAlreadyExistsException {
 	        userService.save(user);
-	        
-	        if(userService.getAllUsers() != null && !userService.getAllUsers().isEmpty()) {
-	        	System.out.println("User Created >>>> " + userService.getAllUsers().get(0));
-	        }
-	 
-	        HttpHeaders headers = new HttpHeaders();
-	        headers.setLocation(ucBuilder.path("/{id}").buildAndExpand(user.getId()).toUri());
-	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	        return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	    }
 	  	
-	  	 protected void setPhone(User user) {
-	         if(user.getPhones() != null) {
-	             for (Phone phone : user.getPhones()) {
-	                 phone.setUser(user);
-	             }
-	         }
-	     }
+	  	@ExceptionHandler(EmailAlreadyExistsException.class)
+	    public String handleEmailException() {
+	  		return "Email j√° cadastrado";
+	    }
 	
 	  	/*
 	  	 * JSON exemplo
 	  	 * {
-	  	 * 	"name" : "Jo„o da Silva",
+	  	 * 	"name" : "Joao da Silva",
 	  	 * 	"email" : "joao@uol.com.br",
 	  	 * 	"password" : "hunter2",
 	  	 *  "phones" : [
