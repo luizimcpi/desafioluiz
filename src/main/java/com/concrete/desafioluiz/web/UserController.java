@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.concrete.desafioluiz.exception.EmailAlreadyExistsException;
 import com.concrete.desafioluiz.model.User;
 import com.concrete.desafioluiz.service.UserService;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 @RestController
 @RequestMapping("/api/users")
@@ -39,23 +41,26 @@ public class UserController {
 	  	
 	  	@ExceptionHandler(EmailAlreadyExistsException.class)
 	    public String handleEmailException() {
-	  		return "Email já cadastrado";
+	  		JsonElement jsonElement = new JsonObject();
+	        ((JsonObject) jsonElement).addProperty("mensagem", "E-mail ja existente");
+	  		
+	  		return jsonElement.toString();
 	    }
 	
 	  	/*
-	  	 * JSON exemplo
-	  	 * {
-	  	 * 	"name" : "Joao da Silva",
-	  	 * 	"email" : "joao@uol.com.br",
-	  	 * 	"password" : "hunter2",
-	  	 *  "phones" : [
-	  	 *  	{
-	  	 *  		"number" : "987654321",
-	  	 *  		"ddd" : "21"
-	  	 *  	}
-	  	 *    ]
-	  	 * }   
-	  	 * 
-	  	 * */
+	  	  JSON exemplo
+	  	  {
+	  	  	"name" : "Joao da Silva",
+	  	  	"email" : "joao@uol.com.br",
+	  	  	"password" : "hunter2",
+	  	   "phones" : [
+	  	   	{
+	  	   		"number" : "987654321",
+	  	   		"ddd" : "21"
+	  	   	}
+	  	     ]
+	  	  }   
+	  	  
+	  	  */
 	
 }

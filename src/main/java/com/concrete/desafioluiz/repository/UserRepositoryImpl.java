@@ -49,8 +49,8 @@ public class UserRepositoryImpl implements UserRepositoryInterface{
 
 	@Override
 	public boolean userExists(String email) {
-		String hql = "FROM User as user WHERE user.email = ?";
-		int count = entityManager.createQuery(hql).setParameter(1, email).getResultList().size();
+		String hql = "FROM User WHERE email = :email";
+		int count = entityManager.createQuery(hql).setParameter("email", email).getResultList().size();
 		return count > 0 ? true : false;
 	}	
 	
