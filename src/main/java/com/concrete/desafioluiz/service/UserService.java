@@ -1,8 +1,7 @@
 package com.concrete.desafioluiz.service;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,16 +21,19 @@ public class UserService {
 	public void save(User user) throws EmailAlreadyExistsException {
 		if(!userRepository.userExists(user.getEmail())) {
 			user.setToken(this.generateUserToken());
-			Date data = new Date(System.currentTimeMillis());  
-			SimpleDateFormat formatarDate = new SimpleDateFormat("dd/MM/yyyy"); 
-			user.setCreated(formatarDate.format(data));
-			user.setLast_login(formatarDate.format(data));
+			user.setCreated(LocalDateTime.now());
+			user.setLast_login(LocalDateTime.now());
 			userRepository.addUser(user);
 		}else {
 			throw new EmailAlreadyExistsException();
 		}
 		
 	}
+	
+	public User findById(long id){
+		return userRepository.getUserById(id);
+	}
+	
 	
 	public List<User> getAllUsers(){
 		return userRepository.getAllUsers();

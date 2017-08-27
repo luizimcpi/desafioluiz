@@ -1,6 +1,7 @@
 package com.concrete.desafioluiz.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -30,13 +31,13 @@ public class User implements Serializable{
 	private String password;
     
     @Column(name = "dt_created", nullable = false)
-    private String created;
+    private LocalDateTime created;
 
     @Column(name = "dt_last_login", nullable = false)
-    private String last_login;
+    private LocalDateTime last_login;
     
     @Column(name = "dt_modified")
-    private String modified;
+    private LocalDateTime modified;
     
     @Column(nullable = false)
    	private String token;
@@ -82,22 +83,22 @@ public class User implements Serializable{
 	public void setToken(String token) {
 		this.token = token;
 	}
-	public String getCreated() {
+	public LocalDateTime getCreated() {
 		return created;
 	}
-	public void setCreated(String created) {
+	public void setCreated(LocalDateTime created) {
 		this.created = created;
 	}
-	public String getLast_login() {
+	public LocalDateTime getLast_login() {
 		return last_login;
 	}
-	public void setLast_login(String last_login) {
+	public void setLast_login(LocalDateTime last_login) {
 		this.last_login = last_login;
 	}
-	public String getModified() {
+	public LocalDateTime getModified() {
 		return modified;
 	}
-	public void setModified(String modified) {
+	public void setModified(LocalDateTime modified) {
 		this.modified = modified;
 	}
 	

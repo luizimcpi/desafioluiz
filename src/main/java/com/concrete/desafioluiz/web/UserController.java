@@ -38,7 +38,6 @@ public class UserController {
 	        return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	    }
 	  	
-	  	
 		@ExceptionHandler(EmailAlreadyExistsException.class)
 	    public ResponseEntity<ErrorMessage> handleEmailException() {
 	  		ErrorMessage errorMessage = new ErrorMessage();

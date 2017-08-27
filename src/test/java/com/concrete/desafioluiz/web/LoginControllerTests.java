@@ -24,13 +24,12 @@ import com.google.gson.Gson;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DesafioluizApplication.class)
 @WebAppConfiguration
-public class UserControllerTests {
+public class LoginControllerTests {
 	
-	private static final String VALID_API_USERS_ROUTE = "/api/users";
-	private static final String INVALID_ROUTE = "/foo";
+	private static final String VALID_API_LOGIN_ROUTE = "/api/login";
+	private static final String INVALID_ROUTE = "/doLogin";
 	private static final String VALID_USER_PASSWORD = "Hunter27";
 	private static final String VALID_USER_EMAIL = "newuser@email.com";
-	private static final String VALID_USER_NAME = "Valid User";
 
 	private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
@@ -52,7 +51,6 @@ public class UserControllerTests {
         
     	Gson userJson = new Gson();
     	VALID_USER = new User();
-    	VALID_USER.setName(VALID_USER_NAME);
     	VALID_USER.setEmail(VALID_USER_EMAIL);
     	VALID_USER.setPassword(VALID_USER_PASSWORD);
     	
@@ -60,11 +58,11 @@ public class UserControllerTests {
     }
     
     @Test
-    public void should_return_status_created_when_user_is_created() throws Exception {
-        this.mockMvc.perform(post(VALID_API_USERS_ROUTE)
-                .contentType(contentType)
-                .content(userjsonString))
-                .andExpect(status().isCreated());
+    public void should_return_status_unauthorized_when_user_with_bad_credentials() throws Exception {
+    	this.mockMvc.perform(post(VALID_API_LOGIN_ROUTE)
+    			.contentType(contentType)
+    			.content(userjsonString))
+    	.andExpect(status().isUnauthorized());
     }
     
     @Test
