@@ -55,12 +55,17 @@ public class UserControllerTests {
     	
     	String userjsonString = userJson.toJson(VALID_USER);
     	
-    	System.out.println(userjsonString); 
-    	
         this.mockMvc.perform(post("/api/users")
                 .contentType(contentType)
                 .content(userjsonString))
                 .andExpect(status().isCreated());
     }
+    
+    @Test
+    public void should_return_email_exception_when_user_already_exists() throws Exception {
+    	
+    }
+    
+    
 
 }

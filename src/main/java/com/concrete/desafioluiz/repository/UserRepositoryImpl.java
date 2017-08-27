@@ -52,6 +52,16 @@ public class UserRepositoryImpl implements UserRepositoryInterface{
 		String hql = "FROM User WHERE email = :email";
 		int count = entityManager.createQuery(hql).setParameter("email", email).getResultList().size();
 		return count > 0 ? true : false;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> getUserByEmailAndPassword(String email, String password){
+		String hql = "FROM User WHERE email = :email and password = :password";
+		return (List<User>) entityManager.createQuery(hql)
+						.setParameter("email", email)
+						.setParameter("password", password)
+						.getResultList();
 	}	
 	
 }
