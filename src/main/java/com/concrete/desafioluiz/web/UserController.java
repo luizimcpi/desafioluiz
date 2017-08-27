@@ -47,20 +47,4 @@ public class UserController {
 	  		return jsonElement.toString();
 	    }
 	
-	  	/*
-	  	  JSON exemplo
-	  	  {
-	  	  	"name" : "Joao da Silva",
-	  	  	"email" : "joao@uol.com.br",
-	  	  	"password" : "hunter2",
-	  	   "phones" : [
-	  	   	{
-	  	   		"number" : "987654321",
-	  	   		"ddd" : "21"
-	  	   	}
-	  	     ]
-	  	  }   
-	  	  
-	  	  */
-	
 }
