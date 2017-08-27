@@ -1,8 +1,9 @@
 # DESAFIO CONCRETE LUIZ HENRIQUE
 
 EndPoints:
-/api/users Method: POST -> create a new User
-/api/users method: GET -> return a list of all users 
+Heroku 
+https://peaceful-tundra-88559.herokuapp.com/api/users Method: POST -> create a new User
+https://peaceful-tundra-88559.herokuapp.com/api/users method: GET -> return a list of all users 
 
 JSON Example 
 {
