@@ -26,3 +26,4 @@ https://peaceful-tundra-88559.herokuapp.com/api/login Method: POST -> doLogin wi
 }
 	  	  
 	  	  
+Acessar o h2 console http://localhost:8080/h2-console/ colocar no campo  JDBC:URL ->  jdbc:h2:mem:testdb

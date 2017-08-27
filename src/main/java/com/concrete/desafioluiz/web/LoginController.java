@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.concrete.desafioluiz.dto.ErrorMessage;
 import com.concrete.desafioluiz.exception.InvalidCredentialsException;
 import com.concrete.desafioluiz.model.User;
 import com.concrete.desafioluiz.service.LoginService;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 @RestController
 @RequestMapping("/api/login")
@@ -28,20 +27,10 @@ public class LoginController {
 	  		return new ResponseEntity<User>(userBD, HttpStatus.OK);
 	    }
 	  	
-	
-		/*@ExceptionHandler(InvalidCredentialsException.class)
-	    public ResponseEntity<JsonElement> handleCredentialsException() {
-	  		JsonElement jsonElement = new JsonObject();
-	        ((JsonObject) jsonElement).addProperty("mensagem", "Usuario e/ou senha invalidos");
-	        return new ResponseEntity<JsonElement>(jsonElement, HttpStatus.UNAUTHORIZED);
-	    }*/
-		
-	  	
 	  	@ExceptionHandler(InvalidCredentialsException.class)
-	    public String handleCredentialsException() {
-	  		JsonElement jsonElement = new JsonObject();
-	        ((JsonObject) jsonElement).addProperty("mensagem", "Usuario e/ou senha invalidos");
-	  		
-	  		return jsonElement.toString();
+	    public ResponseEntity<ErrorMessage> handleCredentialsException() {
+	  		ErrorMessage errorMessage = new ErrorMessage();
+	  		errorMessage.setMensagem("Usuario e/ou senha invalidos");
+	  		return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.UNAUTHORIZED);
 	    }
 }

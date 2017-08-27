@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.concrete.desafioluiz.dto.ErrorMessage;
 import com.concrete.desafioluiz.exception.EmailAlreadyExistsException;
 import com.concrete.desafioluiz.model.User;
 import com.concrete.desafioluiz.service.UserService;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 @RestController
 @RequestMapping("/api/users")
@@ -39,12 +38,12 @@ public class UserController {
 	        return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	    }
 	  	
-	  	@ExceptionHandler(EmailAlreadyExistsException.class)
-	    public String handleEmailException() {
-	  		JsonElement jsonElement = new JsonObject();
-	        ((JsonObject) jsonElement).addProperty("mensagem", "E-mail ja existente");
-	  		
-	  		return jsonElement.toString();
+	  	
+		@ExceptionHandler(EmailAlreadyExistsException.class)
+	    public ResponseEntity<ErrorMessage> handleEmailException() {
+	  		ErrorMessage errorMessage = new ErrorMessage();
+	  		errorMessage.setMensagem("E-mail ja existente");
+	  		return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.OK);
 	    }
 	
 }

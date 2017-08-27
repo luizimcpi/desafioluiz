@@ -10,7 +10,7 @@ public class DesafioluizApplication {
 		SpringApplication.run(DesafioluizApplication.class, args);
 	}
 }
-//Acessar o h2 console http://localhost:8080/h2-console/ colocar no campo  JDBC:URL ->  jdbc:h2:mem:testdb
+
 /*
     test dependencies
  	testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
