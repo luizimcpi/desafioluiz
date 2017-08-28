@@ -1,5 +1,7 @@
 package com.concrete.desafioluiz.web;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import com.concrete.desafioluiz.dto.ErrorMessage;
 import com.concrete.desafioluiz.exception.EmailAlreadyExistsException;
 import com.concrete.desafioluiz.model.User;
 import com.concrete.desafioluiz.service.UserService;
+import com.google.gson.Gson;
 
 @RestController
 @RequestMapping("/api/users")
@@ -33,7 +36,7 @@ public class UserController {
 	    }
 		
 	  	@RequestMapping(method = RequestMethod.POST)
-	    public ResponseEntity<User> createUser(@RequestBody User user) throws EmailAlreadyExistsException {
+	    public ResponseEntity<User> createUser(@RequestBody User user) throws EmailAlreadyExistsException, UnsupportedEncodingException, NoSuchAlgorithmException {
 	        userService.save(user);
 	        return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	    }
@@ -44,5 +47,12 @@ public class UserController {
 	  		errorMessage.setMensagem("E-mail ja existente");
 	  		return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.OK);
 	    }
+
+		@ExceptionHandler({UnsupportedEncodingException.class, NoSuchAlgorithmException.class} )
+		public ResponseEntity<ErrorMessage> handlePasswordEncryptionException() {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setMensagem("Ocorreu um erro ao criptografar a senha do usuario, tente cadastrar novamente");
+			return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	
 }

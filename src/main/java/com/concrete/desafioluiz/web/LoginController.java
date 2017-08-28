@@ -1,5 +1,8 @@
 package com.concrete.desafioluiz.web;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +25,7 @@ public class LoginController {
 		LoginService loginService;
 	
 	  	@RequestMapping(method = RequestMethod.POST)
-	    public ResponseEntity<User> doLogin(@RequestBody User user) throws InvalidCredentialsException {
+	    public ResponseEntity<User> doLogin(@RequestBody User user) throws InvalidCredentialsException, UnsupportedEncodingException, NoSuchAlgorithmException {
 	  		User userBD = loginService.doLogin(user);
 	  		return new ResponseEntity<User>(userBD, HttpStatus.OK);
 	    }
@@ -33,4 +36,11 @@ public class LoginController {
 	  		errorMessage.setMensagem("Usuario e/ou senha invalidos");
 	  		return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.UNAUTHORIZED);
 	    }
+	  	
+		@ExceptionHandler({UnsupportedEncodingException.class, NoSuchAlgorithmException.class} )
+		public ResponseEntity<ErrorMessage> handlePasswordEncryptionException() {
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setMensagem("Ocorreu um erro ao criptografar a senha do usuario, tente cadastrar novamente");
+			return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 }
