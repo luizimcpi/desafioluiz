@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -28,42 +29,62 @@ public class LoginControllerTests {
 	
 	private static final String VALID_API_LOGIN_ROUTE = "/api/login";
 	private static final String INVALID_ROUTE = "/doLogin";
-	private static final String VALID_USER_PASSWORD = "Hunter27";
-	private static final String VALID_USER_EMAIL = "newuser@email.com";
+	private static final String INVALID_USER_PASSWORD = "Hunter27";
+	private static final String INVALID_USER_EMAIL = "newuser@email.com";
 
 	private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
             Charset.forName("utf8"));
 
-	private User VALID_USER;
+	private User INVALID_USER;
 	
 	private MockMvc mockMvc;
 
 	@Autowired
 	private WebApplicationContext webApplicationContext;
 	
-	private String userjsonString = "";
+	
+	private Gson userJson;
 	
 	
     @Before
     public void setup() throws Exception {
+    	MockitoAnnotations.initMocks(this);
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
-        
-    	Gson userJson = new Gson();
-    	VALID_USER = new User();
-    	VALID_USER.setEmail(VALID_USER_EMAIL);
-    	VALID_USER.setPassword(VALID_USER_PASSWORD);
-    	
-    	userjsonString = userJson.toJson(VALID_USER);
+        userJson = new Gson();
     }
     
     @Test
     public void should_return_status_unauthorized_when_user_with_bad_credentials() throws Exception {
+    	INVALID_USER = new User();
+    	INVALID_USER.setEmail(INVALID_USER_EMAIL);
+    	INVALID_USER.setPassword(INVALID_USER_PASSWORD);
+    	
+    	String invalidUserjsonString = userJson.toJson(INVALID_USER);
+    	
     	this.mockMvc.perform(post(VALID_API_LOGIN_ROUTE)
     			.contentType(contentType)
-    			.content(userjsonString))
+    			.content(invalidUserjsonString))
     	.andExpect(status().isUnauthorized());
     }
+
+    /*
+    @Test
+    public void should_return_status_ok_when_user_logged() throws Exception {
+    	User VALID_USER;
+    	VALID_USER = new User();
+    	VALID_USER.setEmail("luizhenrique.se@gmail.com");
+    	VALID_USER.setPassword("hunter2017");
+    	String validUserjsonString = userJson.toJson(VALID_USER);
+    	
+    	Mockito.when(loginService.doLogin(VALID_USER)).thenReturn(VALID_USER);
+    	
+    	this.mockMvc.perform(post(VALID_API_LOGIN_ROUTE)
+    			.contentType(contentType)
+    			.content(validUserjsonString))
+    	.andExpect(status().isOk());
+    	
+    }*/
     
     @Test
     public void should_return_not_found_when_a_request_route_doesnt_exist() throws Exception {

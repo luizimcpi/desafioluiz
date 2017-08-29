@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.concrete.desafioluiz.exception.EmailAlreadyExistsException;
+import com.concrete.desafioluiz.exception.InvalidSessionException;
+import com.concrete.desafioluiz.exception.TokenInvalidException;
 import com.concrete.desafioluiz.model.User;
 import com.concrete.desafioluiz.repository.UserRepositoryInterface;
 import com.concrete.desafioluiz.util.EncryptUtil;
+import com.concrete.desafioluiz.util.LoginUtil;
 
 @Service
 public class UserService {
@@ -34,8 +37,28 @@ public class UserService {
 		
 	}
 	
-	public User findById(long id){
-		return userRepository.getUserById(id);
+	public User findById(long id, List<String> tokenRequest) throws TokenInvalidException {
+		String token = "";
+		if(tokenRequest == null || tokenRequest.isEmpty()) {
+			throw new TokenInvalidException();
+		}else {
+			token = tokenRequest.get(0);
+		}
+		
+		
+		User userBD = userRepository.getUserById(id);
+		
+		if(userBD != null) {
+			if(!userBD.getToken().equals(token)) {
+				throw new TokenInvalidException();
+			}
+			
+			if(LoginUtil.lastLoginMoreThanThirtyMinutes(userBD)){
+				throw new InvalidSessionException();
+			}
+			
+		}
+		return userBD;
 	}
 	
 	

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.concrete.desafioluiz.dto.ErrorMessage;
 import com.concrete.desafioluiz.exception.InvalidCredentialsException;
+import com.concrete.desafioluiz.keys.ErrorKeys;
 import com.concrete.desafioluiz.model.User;
 import com.concrete.desafioluiz.service.LoginService;
 
@@ -29,18 +30,18 @@ public class LoginController {
 	  		User userBD = loginService.doLogin(user);
 	  		return new ResponseEntity<User>(userBD, HttpStatus.OK);
 	    }
-	  	
+
 	  	@ExceptionHandler(InvalidCredentialsException.class)
 	    public ResponseEntity<ErrorMessage> handleCredentialsException() {
 	  		ErrorMessage errorMessage = new ErrorMessage();
-	  		errorMessage.setMensagem("Usuario e/ou senha invalidos");
+	  		errorMessage.setMensagem(ErrorKeys.INAVLID_CREDENTIALS.toString());
 	  		return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.UNAUTHORIZED);
 	    }
 	  	
 		@ExceptionHandler({UnsupportedEncodingException.class, NoSuchAlgorithmException.class} )
 		public ResponseEntity<ErrorMessage> handlePasswordEncryptionException() {
 			ErrorMessage errorMessage = new ErrorMessage();
-			errorMessage.setMensagem("Ocorreu um erro ao criptografar a senha do usuario, tente cadastrar novamente");
+			errorMessage.setMensagem(ErrorKeys.PASSWORD_ENCRYPT_ERROR.toString());
 			return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 }

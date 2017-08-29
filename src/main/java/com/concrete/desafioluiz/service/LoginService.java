@@ -26,5 +26,4 @@ public class LoginService {
 			throw new InvalidCredentialsException();
 		}
 	}
-	
 }
