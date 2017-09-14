@@ -1,4 +1,4 @@
-# DESAFIO CONCRETE LUIZ HENRIQUE
+# DESAFIO LUIZ HENRIQUE
 
 A aplicação está hospedada no Heroku utilizando a seguinte URL:
 https://peaceful-tundra-88559.herokuapp.com/
