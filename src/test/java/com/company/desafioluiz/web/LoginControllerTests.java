@@ -9,7 +9,9 @@ import java.nio.charset.Charset;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -22,9 +24,7 @@ import com.company.desafioluiz.DesafioluizApplication;
 import com.company.desafioluiz.model.User;
 import com.google.gson.Gson;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = DesafioluizApplication.class)
-@WebAppConfiguration
+@RunWith(MockitoJUnitRunner.class)
 public class LoginControllerTests {
 	
 	private static final String VALID_API_LOGIN_ROUTE = "/api/login";
@@ -39,6 +39,9 @@ public class LoginControllerTests {
 	private User INVALID_USER;
 	
 	private MockMvc mockMvc;
+
+	@InjectMocks
+	private LoginController loginController;
 
 	@Autowired
 	private WebApplicationContext webApplicationContext;
@@ -56,10 +59,8 @@ public class LoginControllerTests {
     
     @Test
     public void should_return_status_unauthorized_when_user_with_bad_credentials() throws Exception {
-    	INVALID_USER = new User();
-    	INVALID_USER.setEmail(INVALID_USER_EMAIL);
-    	INVALID_USER.setPassword(INVALID_USER_PASSWORD);
-    	
+    	INVALID_USER = new User(INVALID_USER_EMAIL,INVALID_USER_PASSWORD);
+
     	String invalidUserjsonString = userJson.toJson(INVALID_USER);
     	
     	this.mockMvc.perform(post(VALID_API_LOGIN_ROUTE)

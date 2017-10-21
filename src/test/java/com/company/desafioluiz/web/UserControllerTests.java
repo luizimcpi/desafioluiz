@@ -5,10 +5,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -21,9 +24,7 @@ import com.company.desafioluiz.DesafioluizApplication;
 import com.company.desafioluiz.model.User;
 import com.google.gson.Gson;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = DesafioluizApplication.class)
-@WebAppConfiguration
+@RunWith(MockitoJUnitRunner.class)
 public class UserControllerTests {
 	
 	private static final String VALID_API_USERS_ROUTE = "/api/users";
@@ -40,6 +41,9 @@ public class UserControllerTests {
 	
 	private MockMvc mockMvc;
 
+	@InjectMocks
+	private UserController userController;
+
 	@Autowired
 	private WebApplicationContext webApplicationContext;
 	
@@ -51,11 +55,7 @@ public class UserControllerTests {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
         
     	Gson userJson = new Gson();
-    	VALID_USER = new User();
-    	VALID_USER.setName(VALID_USER_NAME);
-    	VALID_USER.setEmail(VALID_USER_EMAIL);
-    	VALID_USER.setPassword(VALID_USER_PASSWORD);
-    	
+    	VALID_USER =  new User(VALID_USER_NAME,VALID_USER_EMAIL, VALID_USER_PASSWORD, LocalDateTime.now(), LocalDateTime.now(), "");
     	userjsonString = userJson.toJson(VALID_USER);
     }
     

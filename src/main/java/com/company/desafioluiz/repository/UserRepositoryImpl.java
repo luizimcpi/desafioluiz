@@ -37,9 +37,12 @@ public class UserRepositoryImpl implements UserRepositoryInterface{
 	@Override
 	public void updateUser(User user) {
 		User userDao = getUserById(user.getId());
-		userDao.setEmail(user.getEmail());
-		userDao.setPassword(user.getPassword());
-		entityManager.flush();
+		User userUpdated = new User(user.getEmail(), user.getPassword());
+
+//		userDao.setEmail(user.getEmail());
+//		userDao.setPassword(user.getPassword());
+		entityManager.refresh(userUpdated);
+//		entityManager.flush();
 	}
 
 	@Override

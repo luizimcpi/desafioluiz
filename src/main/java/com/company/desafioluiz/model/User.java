@@ -16,8 +16,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class User implements Serializable{
-	
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -8487801845484140274L;
 
 	@Id
     @GeneratedValue
@@ -45,62 +45,48 @@ public class User implements Serializable{
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JsonManagedReference
     private List<Phone> phones;
-    
-    
+
+	public User( final String email, final String password) {
+		this.email = email;
+		this.password = password;
+	}
+
+	public User(final String name, final String email, final String password, final LocalDateTime created, final LocalDateTime last_login, final String token) {
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.created = created;
+		this.last_login = last_login;
+		this.token = token;
+	}
+
 	public Long getId() {
 		return id;
-	}
-    public void setId(Long id) {
-		this.id = id;
 	}
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	public String getEmail() {
 		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
 	}
 	public String getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
 	public List<Phone> getPhones() {
 		return phones;
-	}
-	public void setPhones(List<Phone> phones) {
-		this.phones = phones;
 	}
 	public String getToken() {
 		return token;
 	}
-	public void setToken(String token) {
-		this.token = token;
-	}
 	public LocalDateTime getCreated() {
 		return created;
-	}
-	public void setCreated(LocalDateTime created) {
-		this.created = created;
 	}
 	public LocalDateTime getLast_login() {
 		return last_login;
 	}
-	public void setLast_login(LocalDateTime last_login) {
-		this.last_login = last_login;
-	}
 	public LocalDateTime getModified() {
 		return modified;
 	}
-	public void setModified(LocalDateTime modified) {
-		this.modified = modified;
-	}
-	
+
 }
 
