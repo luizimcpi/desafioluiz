@@ -55,7 +55,7 @@ public class UserControllerTests {
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
         
     	Gson userJson = new Gson();
-    	VALID_USER =  new User(VALID_USER_NAME,VALID_USER_EMAIL, VALID_USER_PASSWORD, LocalDateTime.now(), LocalDateTime.now(), "");
+    	VALID_USER =  new User(VALID_USER_NAME,VALID_USER_EMAIL, VALID_USER_PASSWORD, LocalDateTime.now(), LocalDateTime.now(), null, "");
     	userjsonString = userJson.toJson(VALID_USER);
     }
     
