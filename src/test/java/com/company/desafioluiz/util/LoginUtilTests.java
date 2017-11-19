@@ -1,15 +1,15 @@
 package com.company.desafioluiz.util;
 
-import com.company.desafioluiz.model.User;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import com.company.desafioluiz.model.User;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LoginUtilTests {

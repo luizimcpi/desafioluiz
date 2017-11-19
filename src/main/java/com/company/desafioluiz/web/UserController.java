@@ -5,7 +5,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +41,7 @@ public class UserController {
 	    }
 		
 		@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	  	public ResponseEntity<User> getUserById(@PathVariable("id") long id, @RequestHeader HttpHeaders headers) throws TokenInvalidException, InvalidSessionException {
-	  		List<String> token = headers.get("token");
+	  	public ResponseEntity<User> getUserById(@PathVariable("id") long id, @RequestHeader("token") String token) throws TokenInvalidException, InvalidSessionException {
 	    	User userBD = userService.findById(id, token);
 	  		return new ResponseEntity<User>(userBD, HttpStatus.OK);
 	  	}

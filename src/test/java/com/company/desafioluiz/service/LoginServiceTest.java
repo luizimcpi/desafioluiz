@@ -1,22 +1,23 @@
 package com.company.desafioluiz.service;
 
-import com.company.desafioluiz.exception.InvalidCredentialsException;
-import com.company.desafioluiz.model.User;
-import com.company.desafioluiz.repository.UserRepositoryImpl;
-import com.company.desafioluiz.util.impl.EncryptImpl;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import com.company.desafioluiz.exception.InvalidCredentialsException;
+import com.company.desafioluiz.model.User;
+import com.company.desafioluiz.repository.UserRepository;
+import com.company.desafioluiz.util.impl.EncryptImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LoginServiceTest {
@@ -30,7 +31,7 @@ public class LoginServiceTest {
     EncryptImpl encrypt;
 
     @Mock
-    UserRepositoryImpl userRepository;
+    UserRepository userRepository;
 
     @InjectMocks
     LoginService loginService;
@@ -45,7 +46,7 @@ public class LoginServiceTest {
         users.add(user);
 
         when(encrypt.encryptPassword(user.getPassword())).thenReturn(PASSWORD_CRIPTOGRAFADO);
-        when(userRepository.getUserByEmailAndPassword(EMAIL_VALIDO, PASSWORD_CRIPTOGRAFADO)).thenReturn(users);
+        when(userRepository.findByEmailAndPassword(EMAIL_VALIDO, PASSWORD_CRIPTOGRAFADO)).thenReturn(user);
         User userRetorno = loginService.doLogin(user);
         assertNotNull(userRetorno);
     }
@@ -54,6 +55,6 @@ public class LoginServiceTest {
     public void deveRetornarErroQuandoUsuarioErrarCredenciais() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         final List<User> users = new ArrayList<>();
         when(encrypt.encryptPassword(PASSWORD_INVALIDO)).thenReturn(PASSWORD_CRIPTOGRAFADO);
-        when(userRepository.getUserByEmailAndPassword(EMAIL_VALIDO, PASSWORD_INVALIDO)).thenThrow(InvalidCredentialsException.class);
+        when(userRepository.findByEmailAndPassword(EMAIL_VALIDO, PASSWORD_INVALIDO)).thenThrow(InvalidCredentialsException.class);
     }
 }
