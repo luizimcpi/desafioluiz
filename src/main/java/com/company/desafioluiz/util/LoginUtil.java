@@ -32,21 +32,21 @@ public class LoginUtil {
 	            LocalTime.parse(actualHourFormated));
 		
 		String lastLoginHour = "";
-		if(user.getLast_login().getHour() < 10) {
-			lastLoginHour = "0" + String.valueOf(user.getLast_login().getHour());
+		if(user.getLastLogin().getHour() < 10) {
+			lastLoginHour = "0" + String.valueOf(user.getLastLogin().getHour());
 		}else {
-			lastLoginHour = String.valueOf(user.getLast_login().getHour());
+			lastLoginHour = String.valueOf(user.getLastLogin().getHour());
 		}
 		String lastLoginMinutes="";
-		if(user.getLast_login().getMinute() < 10) {
-			lastLoginMinutes = "0" + String.valueOf(user.getLast_login().getMinute());
+		if(user.getLastLogin().getMinute() < 10) {
+			lastLoginMinutes = "0" + String.valueOf(user.getLastLogin().getMinute());
 		}else {
-			lastLoginMinutes = String.valueOf(user.getLast_login().getMinute());
+			lastLoginMinutes = String.valueOf(user.getLastLogin().getMinute());
 		}
 		String lastLoginFormatedHour = lastLoginHour + ":" + lastLoginMinutes;
 		
 	    LocalDateTime userLastLogin = LocalDateTime.of(
-	    		user.getLast_login().toLocalDate(),
+	    		user.getLastLogin().toLocalDate(),
 	            LocalTime.parse(lastLoginFormatedHour));
 
 	    

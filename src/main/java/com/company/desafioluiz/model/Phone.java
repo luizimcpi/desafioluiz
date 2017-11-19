@@ -16,30 +16,47 @@ public class Phone implements Serializable {
 	private static final long serialVersionUID = 4685664254935732476L;
 
 	@Id
-    @GeneratedValue
-    private Long id;
-    
-    private String number;
-    private String ddd;
-    
-    @ManyToOne
-    @JoinColumn(name = "user_fk")
-	@JsonBackReference
-    private User user;
+	@GeneratedValue
+	private Long id;
 
-	public Phone(final Long id, final String number, final String ddd, final User user) {
+	private String number;
+	private String ddd;
+
+	@ManyToOne
+	@JoinColumn(name = "user_fk")
+	@JsonBackReference
+	private User user;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
 		this.id = id;
-		this.number = number;
-		this.ddd = ddd;
-		this.user = user;
 	}
 
 	public String getNumber() {
 		return number;
 	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
 	public String getDdd() {
 		return ddd;
 	}
-	public User getUser() { return user; }
+
+	public void setDdd(String ddd) {
+		this.ddd = ddd;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 }
